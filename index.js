@@ -1,15 +1,17 @@
 const connectDB = require("./db");
-connectDB();
-
-const cors = require("cors");
-
-// express
 const express = require("express");
 const app = express();
+const cors = require("cors");
+const dotenv = require("dotenv");
+const GlobalErrorHandler = require("./middleware/GlobalErrorHandler");
 const port = 5000;
 
+dotenv.config();
+// connect database
+connectDB();
+
+// middleware
 app.use(cors());
-// parse req.body
 app.use(express.json());
 // Available Routes
 app.use("/api/auth", require("./routes/auth.js"));
@@ -18,6 +20,15 @@ app.use("/api/notes", require("./routes/notes.js"));
 app.get("/", (req, res) => {
   res.send("Hello World");
 });
+
+// wrong routes
+app.all("*", (req, res) => {
+  throw new CustomError(404, false, "Route not found");
+});
+
+// handling error using express Global Error Handler
+app.use(GlobalErrorHandler);
+
 // listen to port
 app.listen(port, () => {
   console.log(`iNotes listening at port ${port}`);

@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
-const mongoURI = "mongodb+srv://19516uttam:theBoss123@cluster0.jrluucr.mongodb.net/mernstack?retryWrites=true&w=majority";
+const mongoURI = "mongodb://127.0.0.1:27017/inotes_backend";
+// const mongoURI = process.env.MONGO_URI;
 
 const connectDB = async () => {
   try {
