@@ -4,7 +4,7 @@ const app = express();
 const cors = require("cors");
 const dotenv = require("dotenv");
 const GlobalErrorHandler = require("./middleware/GlobalErrorHandler");
-const port = 5000;
+const port = 5001;
 
 dotenv.config();
 // connect database

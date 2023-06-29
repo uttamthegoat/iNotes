@@ -4,7 +4,6 @@ const bcrypt = require("bcryptjs");
 var jwt = require("jsonwebtoken");
 const JWT_SECRET = process.env.JWT_SECRET;
 const CustomError = require("../errors/CustomError");
-const DuplicateKeyError = require("../errors/DuplicateKeyError");
 
 const createuser = async (req, res, next) => {
   const errors = validationResult(req);
@@ -13,6 +12,13 @@ const createuser = async (req, res, next) => {
   }
   try {
     let user = await User.findOne({ email: req.body.email });
+    if (user) {
+      throw new CustomError(
+        400,
+        false,
+        "You have already singned up. Please Login"
+      );
+    }
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(req.body.password, salt);
     user = await User.create({
@@ -20,24 +26,13 @@ const createuser = async (req, res, next) => {
       email: req.body.email,
       password: hash,
     });
-    const data = {
-      user: {
-        id: user.id,
-      },
+    const payload = {
+      id: user.id,
     };
-    const authToken = jwt.sign(data, JWT_SECRET);
+    const authToken = jwt.sign(payload, JWT_SECRET);
     res.status(200).json({ success: true, authToken: authToken });
   } catch (error) {
-    if (error.code === 11000) {
-      const err = new DuplicateKeyError(
-        400,
-        false,
-        "Sorry! A user with this credentials alreasy exists"
-      );
-      next(err);
-    } else {
-      next(error);
-    }
+    next(error);
   }
 };
 
@@ -57,25 +52,23 @@ const login = async (req, res, next) => {
     if (!passwordCompare) {
       throw new CustomError(400, false, "Password Incorrect");
     }
-    const data = {
-      user: {
-        id: user.id,
-      },
+    const payload = {
+      id: user.id,
     };
-    const authToken = jwt.sign(data, JWT_SECRET);
-    res.json({ success: true, authToken: authToken });
+    const authToken = jwt.sign(payload, JWT_SECRET, { expiresIn: "86000" });
+    res.status(200).json({ success: true, authToken: authToken });
   } catch (error) {
     next(error);
   }
 };
 
-const getuser = async (req, res) => {
+const getuser = async (req, res, next) => {
   try {
     const userId = req.user.id;
-    const user = await User.findById(userId).select("-password");
-    res.status(200).send({ success: true, user: user });
+    const { name, email } = await User.findById(userId).select("-password");
+    res.status(200).json({ success: true, user: { name: name, email: email } });
   } catch (error) {
-    return res.status(500).json({ success: false, error: error.message });
+    next(error);
   }
 };
 

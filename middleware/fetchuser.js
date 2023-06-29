@@ -1,22 +1,19 @@
 var jwt = require("jsonwebtoken");
-const JWT_SECRET = process.env.JWT_SECRET;
+const CustomError = require("../errors/CustomError");
 
 const fetchuser = (req, res, next) => {
-  // GET user id from jwt token and add id to req object
-  const token = req.header("auth-token");
-  if (!token) {
-    return res
-      .status(401)
-      .json({ error: "Please authenticate using a valid token" });
-  }
   try {
-    const data = jwt.verify(token, JWT_SECRET);
-    req.user = data.user;
+    const token = req.header("auth-token");
+    if (!token) {
+      throw new CustomError(401, false, "Please Login");
+    }
+    const data = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = {
+      id: data.id,
+    };
     next();
   } catch (error) {
-    res
-      .status(401)
-      .json({ error: "Please authenticate the page using a valid token" });
+    next(error);
   }
 };
 
