@@ -2,6 +2,7 @@ import { createContext, useState } from "react";
 export const NoteContext = createContext();
 const NoteState = (props) => {
   let host = "https://inotes-server.vercel.app";
+  // let host = "http://localhost:5001";
   const auth_token = localStorage.getItem("token");
 
   const [allnotes, setAllnotes] = useState([]);

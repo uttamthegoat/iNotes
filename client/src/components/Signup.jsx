@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate,Link } from "react-router-dom";
+import { host } from "../utils";
 
 export default function Signup() {
   let navigate = useNavigate();
@@ -10,7 +11,7 @@ export default function Signup() {
   });
   const handleSignup = async (e) => {
     e.preventDefault();
-    let response = await fetch('https://inotes-server.vercel.app/api/auth/createuser', {
+    let response = await fetch(`${host}/api/auth/createuser`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

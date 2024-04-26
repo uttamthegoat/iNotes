@@ -11,7 +11,11 @@ dotenv.config();
 connectDB();
 
 // middleware
-app.use(cors());
+const corsOptions = {
+  // origin: "http://localhost:5173",
+  origin: "https://inotes-frontend.netlify.app",
+}
+app.use(cors(corsOptions));
 app.use(express.json());
 // Available Routes
 app.use("/api/auth", require("./routes/auth.js"));

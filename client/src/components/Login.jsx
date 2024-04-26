@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate,Link } from "react-router-dom";
+import {host} from '../utils';
 
 export default function Login() {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
@@ -8,7 +9,7 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let response = await fetch(`https://inotes-server.vercel.app/api/auth/login`, {
+    let response = await fetch(`${host}/api/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
