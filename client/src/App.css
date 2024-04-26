@@ -1,0 +1,38 @@
+#root {
+  width: 100%;
+}
+
+#alert-message {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  width: 80%;
+}
+
+.App {
+  color: black;
+}
+.signupform {
+  margin: 3rem 0rem;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+}
+.signupform label {
+  font-weight: bold;
+  font-size: 20px;
+}
+.signupform input {
+  border-radius: 6px;
+  border: 1px solid;
+  outline: 0;
+  height: 40px;
+  margin-bottom: 2rem;
+  padding: 10px;
+}
+.signupform button{
+  width: 6rem;
+  display: block;
+  margin: auto;
+}

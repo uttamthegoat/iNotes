@@ -1,0 +1,39 @@
+.Home__addNote {
+  margin-top: 2rem;
+}
+
+.Home__noteTitle {
+  display: block;
+  height: 40px;
+  width: 100%;
+  border-radius: 0.5rem;
+  outline: 0;
+  border: 1px solid;
+  padding: 10px 10px;
+  margin: 10px 0px 20px 0px;
+  background-color: rgba(0, 0, 0, 0.664);
+  color: #ffffff;
+}
+.Home__noteDesc {
+  display: block;
+  height: 40px;
+  width: 100%;
+  border-radius: 0.5rem;
+  outline: 0;
+  border: 1px solid;
+  padding: 10px 10px;
+  margin: 10px 0px 20px 0px;
+  background-color: rgba(0, 0, 0, 0.664);
+  color: #ffffff;
+}
+.Home__addBtn {
+  border: 0;
+  outline: 0;
+  background-color: black;
+  color: white;
+  padding: 0.6rem;
+  border-radius: 0.3rem;
+}
+.Home__allNotes {
+  margin: 3rem 0rem;
+}
